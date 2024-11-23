@@ -9,8 +9,9 @@ use App\Models\Candidates;
 use App\Models\Results;
 
 use App\Models\Criteria;
-
+use Exception;
 use Illuminate\View\View;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 class ResultsController extends Controller
 {
@@ -85,6 +86,7 @@ class ResultsController extends Controller
     }
     private function normalizeMatrix($matrix)
     {
+        
         $criteria = Criteria::pluck('type')->toArray();
 
         $maxValues = [];
@@ -92,10 +94,13 @@ class ResultsController extends Controller
 
         for ($j = 0; $j < count($criteria); $j++)
         {
-            $columnValues = array_column($matrix, $j);
-            $maxValues[$j] = max($columnValues);
-            $minValues[$j] = min($columnValues);
-
+            if(empty($matrix)){
+                
+            }else{
+                $columnValues = array_column($matrix, $j);
+                $maxValues[$j] = max($columnValues);
+                $minValues[$j] = min($columnValues);
+            }
         }
         
         $normalizedMatrix = [];

@@ -21,7 +21,7 @@ class Candidates extends Model
     ];
     public $timestamps = false;
 
-    protected static function autoDelete()
+    protected static function booted()
     {
         static::deleting(function ($candidate) {
             // Hapus data dari tabel 'results' yang terkait

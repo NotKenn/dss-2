@@ -28,9 +28,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/', [HomeController::class, 'home']);
+    Route::get('/', [CriteriaController::class, 'index']);
 	Route::get('dashboard', function () {
-		return view('dashboard');
+		return view('criteria.index');
 	})->name('dashboard');
 
     Route::get('/logout', [SessionsController::class, 'destroy']);
