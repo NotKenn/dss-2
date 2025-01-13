@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\approveCandidates;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\CriteriaController;
@@ -28,10 +29,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/', [CriteriaController::class, 'index']);
-	Route::get('dashboard', function () {
-		return view('criteria.index');
-	})->name('dashboard');
+    Route::get('/dashboard', [CriteriaController::class, 'index'])->name('dashboard');
 
     Route::get('/logout', [SessionsController::class, 'destroy']);
 	Route::get('/user-profile', [InfoUserController::class, 'create']);
@@ -51,6 +49,8 @@ Route::resource('/candidates', CandidateController::class )->except('show');
 Route::get('candidates/destroy/{id}', [CandidateController::class, 'destroy'])->name('candidates.destroy');
 
 Route::get('/result', [ResultsController::class, 'index']);
+
+Route::get('/approvecandidates', approveCandidates::class, 'index')->name('approvecandidates.index');
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [RegisterController::class, 'create']);
