@@ -19,13 +19,15 @@ class ResultsController extends Controller
     {
         $this->calculateAll();
 
+        $this->deleteCandidatesResults();
+
         $results = Results::orderBy('ranking')->get();
 
         return view('result.index', compact('results'));
     }
     private function calculateAll()
     {
-        $candidates = Candidates::all();
+        $candidates = Candidates::where('status','=' ,1)->get();
 
         $matrix = $this->generateMatrix(); 
 
@@ -67,7 +69,8 @@ class ResultsController extends Controller
     }
     private function generateMatrix()
     {
-        $candidates = Candidates::all();
+        $candidates = Candidates::where('status','=',1)->get();
+
         $rawMatrix = [];
         
         foreach ($candidates as $can)
@@ -124,6 +127,15 @@ class ResultsController extends Controller
         }
         return $normalizedMatrix;
     }
+    public function deleteCandidatesResults()
+{
+    // Ambil semua kandidat dengan status = 0
+    $candidates = Candidates::where('status', '=', 0)->pluck('namaKandidat');
+
+    // Hapus data di tabel 'results' berdasarkan nama kandidat
+    Results::whereIn('jurusan', $candidates)->delete();
+
+}
     // public function create()
     // {
     //     $criteriadetail = CriteriaDetail::all();

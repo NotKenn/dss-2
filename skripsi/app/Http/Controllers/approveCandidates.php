@@ -25,8 +25,9 @@ class approveCandidates extends Controller
 
         if ($request->has('approved_candidates')) {
             Candidates::whereIn('id', $request->approved_candidates)
-            ->update(['isApproved' => true]);
-    }
+            ->update(['status' => true]);
+        }
+        
         return redirect()->route('approvecandidates.index')->with('success', 'Approval status updated successfully!');
 
     }

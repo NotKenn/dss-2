@@ -50,7 +50,8 @@ Route::get('candidates/destroy/{id}', [CandidateController::class, 'destroy'])->
 
 Route::get('/result', [ResultsController::class, 'index']);
 
-Route::get('/approvecandidates', approveCandidates::class, 'index')->name('approvecandidates.index');
+Route::get('/approvecandidates', [approveCandidates::class, 'index'])->name('approvecandidates.index');
+Route::post('/updateApproval', [approveCandidates::class, 'updateApproval'] )->name('approvecandidates.updateapproval');
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [RegisterController::class, 'create']);
